@@ -47,7 +47,7 @@ local hsl = lush.hsl
 
 local main_color =  hsl("#F1DD33")
 local white = hsl("#FFFFFF")
-local black = hsl("#181818")
+local black = hsl("#0C0C0C")
 local blue = hsl("#03c2fc")
 local green = hsl("#03fc84")
 local warning = hsl("#ff8800")
