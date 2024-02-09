@@ -45,12 +45,13 @@
 local lush = require('lush')
 local hsl = lush.hsl
 
-local white = hsl("#FFFFFF")
-local white_darken = white.darken(50)
-local black = hsl("#181818")
 local main_color =  hsl("#F1DD33")
+local white = hsl("#FFFFFF")
+local black = hsl("#181818")
+local blue = hsl("#03c2fc")
+local green = hsl("#03fc84")
 local warning = hsl("#ff8800")
-local error = hsl("#f05c5c")
+local error = hsl("#e31717")
 
 -- LSP/Linters mistakenly show `undefined global` errors in the spec, they may
 -- support an annotation like the following. Consult your server documentation.
@@ -70,17 +71,17 @@ local theme = lush(function(injected_functions)
     --
     ColorColumn    { bg = white.darken(80), fg = white }, -- Columns set with 'colorcolumn'
     Conceal        { bg = main_color, fg = black }, -- Placeholder characters substituted for concealed text (see 'conceallevel')
-    Cursor         { fg = black, bg = white }, -- Character under the cursor
+    Cursor         { fg = black, bg = main_color }, -- Character under the cursor
     -- CurSearch      { }, -- Highlighting a search pattern under the cursor (see 'hlsearch')
     -- lCursor        { }, -- Character under the cursor when |language-mapping| is used (see 'guicursor')
     -- CursorIM       { }, -- Like Cursor, but used when in IME mode |CursorIM|
     -- CursorColumn   { }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
     -- CursorLine     { }, -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set.
-    -- Directory      { }, -- Directory names (and other special names in listings)
-    -- DiffAdd        { }, -- Diff mode: Added line |diff.txt|
-    -- DiffChange     { }, -- Diff mode: Changed line |diff.txt|
-    -- DiffDelete     { }, -- Diff mode: Deleted line |diff.txt|
-    -- DiffText       { }, -- Diff mode: Changed text within a changed line |diff.txt|
+    Directory      { fg = main_color }, -- Directory names (and other special names in listings)
+    DiffAdd        { fg = green }, -- Diff mode: Added line |diff.txt|
+    DiffChange     { fg = blue }, -- Diff mode: Changed line |diff.txt|
+    DiffDelete     { fg = error }, -- Diff mode: Deleted line |diff.txt|
+    DiffText       { bg = error }, -- Diff mode: Changed text within a changed line |diff.txt|
     -- EndOfBuffer    { }, -- Filler lines (~) after the end of the buffer. By default, this is highlighted like |hl-NonText|.
     -- TermCursor     { }, -- Cursor in a focused terminal
     -- TermCursorNC   { }, -- Cursor in an unfocused terminal
@@ -88,7 +89,7 @@ local theme = lush(function(injected_functions)
     -- VertSplit      { }, -- Column separating vertically split windows
     -- Folded         { }, -- Line used for closed folds
     -- FoldColumn     { }, -- 'foldcolumn'
-    -- SignColumn     { }, -- Column where |signs| are displayed
+    SignColumn     { }, -- Column where |signs| are displayed
     -- IncSearch      { }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
     Substitute     { bg = main_color, fg = black }, -- |:substitute| replacement text highlighting
     LineNr         { fg = white }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
@@ -132,8 +133,8 @@ local theme = lush(function(injected_functions)
     -- Title          { }, -- Titles for output from ":set all", ":autocmd" etc.
     Visual         { bg = main_color, fg = black }, -- Visual mode selection
     -- VisualNOS      { }, -- Visual mode selection when vim is "Not Owning the Selection".
-    -- WarningMsg     { }, -- Warning messages
-    -- Whitespace     { }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
+    WarningMsg     { fg = error }, -- Warning messages
+    Whitespace     { fg = black.darken(95) }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
     -- Winseparator   { }, -- Separator between window splits. Inherts from |hl-VertSplit| by default, which it will replace eventually.
     -- WildMenu       { }, -- Current match in 'wildmenu' completion
     -- WinBar         { }, -- Window bar of current window
@@ -147,17 +148,17 @@ local theme = lush(function(injected_functions)
     --
     -- Uncomment and edit if you want more specific syntax highlighting.
 
-    Comment        { fg = white.darken(80) }, -- Any comment
+    Comment        { fg = black.lighten(20) }, -- Any comment
 
-    Constant       { fg = main_color.darken(50) }, -- (*) Any constant
+    Constant       { fg = white.darken(50) }, -- (*) Any constant
     -- String         { fg = main_color.darken(50) }, --   A string constant: "this is a string"
     -- Character      { fg = main_color.darken(50) }, --   A character constant: 'c', '\n'
     -- Number         { fg = main_color.darken(50) }, --   A number constant: 234, 0xff
     -- Boolean        { fg = main_color.darken(50) }, --   A boolean constant: TRUE, false
     -- Float          { fg = main_color.darken(50) }, --   A floating point constant: 2.3e10
 
-    Identifier     { fg = white }, -- (*) Any variable name
-    Function       { fg = white.darken(50)}, --   Function name (also: methods for classes)
+    Identifier     { fg = white.darken(20) }, -- (*) Any variable name
+    Function       { fg = white.darken(20) }, --   Function name (also: methods for classes)
 
     Statement      { fg = main_color }, -- (*) Any statement
     -- Conditional    { }, --   if, then, else, endif, switch, etc.
@@ -173,7 +174,7 @@ local theme = lush(function(injected_functions)
     -- Macro          { }, --   Same as Define
     -- PreCondit      { }, --   Preprocessor #if, #else, #endif, etc.
 
-    Type           {  fg = white.darken(30) }, -- (*) int, long, char, etc.
+    Type           {  fg = white }, -- (*) int, long, char, etc.
     -- StorageClass   { }, --   static, register, volatile, etc.
     -- Structure      { }, --   struct, union, enum, etc.
     -- Typedef        { }, --   A typedef
